@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexty Convert</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #4f46e5, #06b6d4);
+      color: #111827;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    .container {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(16px);
+      border-radius: 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      max-width: 1000px;
+      width: 95%;
+      padding: 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      animation: slideUp 1s ease forwards;
+    }
+
+    @keyframes slideUp {
+      from {opacity: 0; transform: translateY(30px);} to {opacity: 1; transform: translateY(0);}
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      animation: fadeIn 1s ease;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 15px rgba(59,130,246,0.4);
+      transform: rotate(-8deg);
+    }
+
+    .logo-text {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      color: white;
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #f0f9ff;
+      font-size: 0.95rem;
+    }
+
+    label {
+      display:block; margin-top:14px; color:#fff; font-size:0.9rem; font-weight:500;
+    }
+
+    input, select {
+      width:100%; padding:10px; border-radius:10px; border:none; margin-top:6px; font-size:1rem;
+      outline:none;
+    }
+
+    input:focus, select:focus {
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.4);
+    }
+
+    .buttons { display:flex; gap:12px; margin-top:24px }
+
+    a.button {
+      flex:1;
+      border:none;
+      padding:12px;
+      border-radius:12px;
+      font-weight:700;
+      text-decoration:none;
+      text-align:center;
+      color:white;
+      font-size:1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    a.wa { background: linear-gradient(135deg,#22c55e,#16a34a); }
+    a.email { background: linear-gradient(135deg,#4338ca,#3730a3); }
+
+    a.button::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: rgba(255,255,255,0.25);
+      transition: left 0.5s;
+    }
+    a.button:hover::after {
+      left: 100%;
+    }
+
+    .summary {
+      background: rgba(255,255,255,0.2);
+      border-radius: 16px;
+      padding: 20px;
+      color: #fff;
+      box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+      animation: fadeIn 1.5s ease;
+    }
+
+    .summary h3 { margin-top:0; color:#fff }
+    .summary .row { display:flex; justify-content:space-between; margin-bottom:8px; }
+
+    .floating {
+      position: fixed;
+      border-radius: 50%;
+      opacity: 0.25;
+      animation: float 10s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-30px); }
+    }
+
+    @media(max-width:820px){
+      .container{ grid-template-columns:1fr; padding:28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="floating" style="width:200px; height:200px; background:#60a5fa; top:10%; left:5%; animation-delay:1s"></div>
+  <div class="floating" style="width:150px; height:150px; background:#a78bfa; bottom:10%; right:5%; animation-delay:2s"></div>
+
+  <div class="container">
+    <div>
+      <div class="logo">
+        <div class="logo-icon">N</div>
+        <div class="logo-text">NEXTY CONVERT</div>
+      </div>
+      <h1>Convert PayPal → eWallet</h1>
+      <p>Masukkan jumlah saldo PayPal yang ingin ditukar ke eWallet pilihan Anda. Setelah mengisi data, klik tombol WhatsApp atau Email untuk melanjutkan transaksi.</p>
+
+      <label>Jumlah (USD)</label>
+      <input type="number" id="amountUSD" placeholder="Contoh: 25.00" step="0.01">
+
+      <label>Tipe eWallet / Metode</label>
+      <select id="wallet">
+        <option value="Dana">Dana</option>
+        <option value="OVO">OVO</option>
+        <option value="GoPay">GoPay</option>
+        <option value="ShopeePay">ShopeePay</option>
+        <option value="Bank">Bank (Transfer)</option>
+      </select>
+
+      <div id="bankDetails" class="hidden">
+        <label>Nama Bank & No. Rekening / Nama Penerima</label>
+        <input type="text" id="bankInfo" placeholder="Contoh: BCA - a.n. Nama - 1234567890">
+      </div>
+
+      <label>Email PayPal (opsional)</label>
+      <input type="email" id="paypalEmail" placeholder="contoh@paypal.com">
+
+      <div class="buttons">
+        <a href="#" id="waLink" target="_blank" class="button wa">💬 Hubungi via WhatsApp</a>
+        <a href="#" id="emailLink" class="button email">📧 Kirim Email</a>
+      </div>
+
+      <p style="font-size:0.85rem; color:#e0f2fe; margin-top:12px">Pastikan data benar dan gunakan sumber dana resmi. Kami tidak bertanggung jawab atas kesalahan pengisian.</p>
+    </div>
+
+    <div class="summary">
+      <h3>📋 Ringkasan</h3>
+      <div class="row"><span>Jumlah (USD)</span><span id="usdDisplay">$0.00</span></div>
+      <div class="row"><span>Metode</span><span id="methodDisplay">Dana</span></div>
+      <div id="bankSummary" class="row hidden"><span>Detail Bank</span><span id="bankSummaryText">-</span></div>
+      <hr style="border:none;border-top:1px solid rgba(255,255,255,0.3);margin:12px 0">
+      <div class="row"><span>WhatsApp</span><span>0812-2636-9423</span></div>
+      <div class="row"><span>Email</span><span>educationclips8@gmail.com</span></div>
+    </div>
+  </div>
+
+  <script>
+    const waNumber = '6281226369423';
+    const emailAddress = 'educationclips8@gmail.com';
+
+    const amountUSDInput = document.getElementById('amountUSD');
+    const walletSelect = document.getElementById('wallet');
+    const paypalEmailInput = document.getElementById('paypalEmail');
+    const bankDetails = document.getElementById('bankDetails');
+    const bankInfo = document.getElementById('bankInfo');
+
+    const usdDisplay = document.getElementById('usdDisplay');
+    const methodDisplay = document.getElementById('methodDisplay');
+    const bankSummary = document.getElementById('bankSummary');
+    const bankSummaryText = document.getElementById('bankSummaryText');
+
+    const waLink = document.getElementById('waLink');
+    const emailLink = document.getElementById('emailLink');
+
+    function update(){
+      const usd = parseFloat(amountUSDInput.value) || 0;
+      usdDisplay.textContent = `$${usd.toFixed(2)}`;
+
+      const wallet = walletSelect.value;
+      methodDisplay.textContent = wallet;
+
+      if(wallet === 'Bank'){
+        bankDetails.classList.remove('hidden');
+        bankSummary.classList.remove('hidden');
+        bankSummaryText.textContent = bankInfo.value || '-';
+      } else {
+        bankDetails.classList.add('hidden');
+        bankSummary.classList.add('hidden');
+      }
+
+      const paypalEmail = paypalEmailInput.value || '-';
+      const message = encodeURIComponent(
+        `Halo, saya ingin menukar PayPal sebesar $${usd.toFixed(2)} menjadi ${wallet}.\nEmail PayPal: ${paypalEmail}\nDetail bank: ${bankInfo.value || '-'}\nMohon info langkah selanjutnya.`
+      );
+
+      waLink.href = `https://wa.me/${waNumber}?text=${message}`;
+      emailLink.href = `mailto:${emailAddress}?subject=Permintaan%20Convert%20PayPal&body=${message}`;
+    }
+
+    document.querySelectorAll('input, select').forEach(el=>el.addEventListener('input', update));
+    update();
+  </script>
+</body>
+</html>
